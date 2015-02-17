@@ -1,0 +1,13 @@
+<template name="timer">
+  <a href="/">&lt; View time records</a>
+  <h1>Timer</h1>
+  <form id="timerForm">
+    <!--p>Name: <input type="text" id="user" /></p-->
+    <p>Activity Type: <select id="type">
+      <option selected="selected">Game</option>
+    </select></p>
+    <p><input type="submit" id="start" value="Start Timer" {{startDis}} /></p>
+  </form>
+  <p><button id="stop" {{stopDis}}>Stop Timer</button></p>
+  <p><span id="activeTimer">{{hrs}} : {{mins}} : {{secs}}</span></p>
+</template>

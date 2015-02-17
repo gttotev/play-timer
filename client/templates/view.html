@@ -1,0 +1,40 @@
+<template name="view">
+  {{#if currentUser}}<a href="/timer">Timer &gt;</a><br />{{/if}}
+  {{> loginButtons}}
+  <h1>Time records</h1>
+  <fieldset>
+    <legend><h3>Currently on</h3></legend>
+    {{#each timerOn}}
+    <p><b>{{user}}</b> is currently doing {{type}} <button class="time" data-id="{{_id}}">Show Time</button></p>
+    {{/each}}
+  </fieldset>
+  <br />
+  <fieldset>
+    <legend><h3>Previous records</h3></legend>
+    <div id="sort">
+      <h4>Show records by...</h4>
+      <form id="disUser"><p>User(s): <input type="text" id="user" /><input type="submit" value="Show" /></p></form>
+      <form id="disDate"><p>Date: <input type="date" id="date" /><input type="submit" value="Show" /></p></form>
+      <form id="disType"><p>Type: <input type="text" id="type" /><input type="submit" value="Show" /></p></form>
+      <p><button id="all">Show all</button></p>
+    </div>
+    <hr />
+    <div id="totals">
+      <fieldset>
+        <legend><h4>User totals</h4></legend>
+        {{#each totalTimes}}
+        <p><b>{{user}}</b> was on for a total of {{total}} milliseconds</p>
+        {{/each}}
+      </fieldset>
+    </div>
+    <br />
+    <div id="records">
+      <fieldset>
+        <legend><h4>Record listings</h4></legend>
+        {{#each times}}
+        <p><b>{{user}}</b> did {{type}} for {{totalTime}}</p>
+        {{/each}}
+      </fieldset>
+    </div>
+  </fieldset>
+</template>
