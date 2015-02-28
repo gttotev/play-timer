@@ -42,20 +42,38 @@ Template.view.helpers({
     times.forEach(function (timeDoc, i, timesSet) {
       var start = timeDoc.start;
       var stop = timeDoc.stop;
-      var timeDiff = stop.getTime() - start.getTime();
+      var currTime = calcTimeDiff(start, stop);
+      var hrs = currTime[0];
+      var mins = currTime[1];
+      var secs = currTime[2];
+      
       var currTimedoc = _.findWhere(totals, {user: timeDoc.user});
       if (!currTimedoc)
-        totals.push({user: timeDoc.user, total: timeDiff});
+        totals.push({user: timeDoc.user, total: {hrs: hrs, mins: mins, secs: secs}});
       else {
         var index = totals.indexOf(currTimedoc);
-        totals[index] = {user: totals[index].user, total: totals[index].total + timeDiff};
+        var carry = 0;
+        var totSecs = (secs + currTimedoc.total.secs) % 60;
+        carry = Math.floor((secs + currTimedoc.total.secs) / 60);
+        var totMins = (mins + currTimedoc.total.mins + carry) % 60;
+        carry = Math.floor((mins + currTimedoc.total.mins + carry) / 60);
+        var totHrs = hrs + currTimedoc.total.hrs + carry;
+        totals[index] = {user: totals[index].user, total: {hrs: totHrs, mins: totMins, secs: totSecs}};
       }
     });
     Session.set('totals', totals);
     return times;
   },
   totalTimes: function() {
-    return Session.get('totals');
+    var totals = Session.get('totals');
+    /*totals.forEach(function(totalDoc, i, totalsSet) {
+      var hrs = totalDoc.total.hrs;
+      var mins = totalDoc.total.mins;
+      var secs = totalDoc.total.secs;
+      var timeStr = hrs + " hours, " + mins + " minutes, " + secs + " seconds";
+      totalsSet[i] = _.extend(totalDoc, {totalStr: timeStr});
+    });*/
+    return totals;
   },
   timerOn: function() {
     return Times.find({on: true}, {sort: {start: -1}});

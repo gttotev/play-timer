@@ -23,7 +23,7 @@
       <fieldset>
         <legend><h4>User totals</h4></legend>
         {{#each totalTimes}}
-        <p><b>{{user}}</b> was on for a total of {{total}} milliseconds</p>
+        <p><b>{{user}}</b> was on for a total of {{total.hrs}} hours, {{total.mins}} minutes, and {{total.secs}} seconds.</p>
         {{/each}}
       </fieldset>
     </div>
